@@ -6,21 +6,21 @@ const jwt = require('jsonwebtoken')
 const userRegister = async function (req, res) {
     try {
         const userData = req.body;
-        
+
         let { name, phone, title, password, email, address } = userData;
-        
+
         if (Object.keys(userData).length == 0) {
             return res
                 .status(400)
                 .send({ status: false, message: "Please provide some data to create user" });
         }
-//====================================title ========
-        if (!title ) {
+        //====================================title ========
+        if (!title) {
             return res
                 .status(400)
                 .send({ status: false, message: "please provide title" });
         }
-        if ( typeof (title) != "string") {
+        if (typeof (title) != "string") {
             return res
                 .status(400)
                 .send({ status: false, message: "please provide title in string" });
@@ -33,7 +33,7 @@ const userRegister = async function (req, res) {
                 .status(400)
                 .send({ status: false, message: "please provide valid title" });
         }
-//================================================name========
+        //================================================name========
 
 
         if (!name) {
@@ -48,31 +48,31 @@ const userRegister = async function (req, res) {
         }
         name = userData.name = name.trim()
 
-        if(!valid.textReg(name)){
-            return res
-                .status(400)
-                .send({ status: false, message: "enter valid name" });
-        }
+        // if(!valid.textReg(name)){
+        //     return res
+        //         .status(400)
+        //         .send({ status: false, message: "enter valid name" });
+        // }
 
-    //=============================================phone======
+        //=============================================phone======
 
         if (!phone) {
             return res
                 .status(400)
                 .send({ status: false, message: "Please provide phone" });
         }
-        if ( typeof (phone) != "string") {
+        if (typeof (phone) != "string") {
             return res
                 .status(400)
                 .send({ status: false, message: "Please provide valid phone in string" });
         }
         phone = userData.phone = phone.trim()
 
-        if (!valid.phoneValid(phone)) {
-            return res
-                .status(400)
-                .send({ status: false, message: "enter valid phone number" });
-        }
+        // if (!valid.phoneValid(phone)) {
+        //     return res
+        //         .status(400)
+        //         .send({ status: false, message: "enter valid phone number" });
+        // }
         const phoneExist = await userModel.findOne({ phone: phone });
         if (phoneExist) {
             return res
@@ -85,21 +85,21 @@ const userRegister = async function (req, res) {
         if (!email) {
             return res
                 .status(400)
-                .send({ status: false, message: "provide email"});
+                .send({ status: false, message: "provide email" });
         }
-if ( typeof(email) != "string") {
+        if (typeof (email) != "string") {
             return res
                 .status(400)
-                .send({ status: false, message: "email must be in string"});
+                .send({ status: false, message: "email must be in string" });
         }
 
         email = userData.email = email.trim()
 
-        if (!valid.emailValid(email)) {
-            return res
-                .status(400)
-                .send({ status: false, message: "enter valid email id" });
-        }
+        // if (!valid.emailValid(email)) {
+        //     return res
+        //         .status(400)
+        //         .send({ status: false, message: "enter valid email id" });
+        // }
         const emailExist = await userModel.findOne({ email: email });
         if (emailExist) {
             return res
@@ -107,78 +107,70 @@ if ( typeof(email) != "string") {
                 .send({ status: false, message: "email is already exist" });
         }
 
-//===============================================================
+        //===============================================================
 
-        if (!password ) {
+        if (!password) {
             return res
                 .status(400)
                 .send({ status: false, message: "password Please" });
         }
-        if (typeof(password) != "string") {
+        if (typeof (password) != "string") {
             return res
                 .status(400)
                 .send({ status: false, message: "password is must be in string" });
         }
         password = userData.password = password.trim()
 
-        if (!valid.passwordValid(password)) {
-            return res
-                .status(400)
-                .send({ status: false, message: "Password should contain atleast 1 lowercase, 1 uppercase, 1 numeric ,1 special character, range between 8-12" });
-        }
-//=========================================================================================
+        // if (!valid.passwordValid(password)) {
+        //     return res
+        //         .status(400)
+        //         .send({ status: false, message: "Password should contain atleast 1 lowercase, 1 uppercase, 1 numeric ,1 special character, range between 8-12" });
+        // }
+        //=========================================================================================
 
-        if(address){
-            if (!address.street ) {
-                return res
-                    .status(400)
-                    .send({ status: false, message: "Please provide street name in address" });
+        if (address) {
+            if (address.street) {
+
+                if (typeof (address.street) != "string") {
+                    return res
+                        .status(400)
+                        .send({ status: false, message: "Please provide street name in string" });
+                }
+                address.street = userData.address.street = address.street.trim()
             }
-            if (typeof (address.street) != "string") {
-                return res
-                    .status(400)
-                    .send({ status: false, message: "Please provide street name in string" });
-            }
-            address.street = userData.address.street = address.street.trim()
 
             //========================================
 
-            if (!address.city ) {
-                return res
-                    .status(400)
-                    .send({ status: false, message: "Please provide city name in address" });
-            }
-            if ( typeof (address.city) != "string") {
-                return res
-                    .status(400)
-                    .send({ status: false, message: "Please provide city name in string" });
+            if (address.city) {
+
+                if (typeof (address.city) != "string")
+                    return res
+                        .status(400)
+                        .send({ status: false, message: "Please provide city name in string" });
             }
             address.city = userData.address.city = address.city.trim()
 
-//================================================
-            if (!address.pincode ) {
-                return res
-                    .status(400)
-                    .send({ status: false, message: "Please provide pincode in address" });
-            }
-            if ( typeof (address.pincode) != "string") {
-                return res
-                    .status(400)
-                    .send({ status: false, message: "Please provide pincode in string" });
+            //================================================
+            if (address.pincode) {
+
+                if (typeof (address.pincode) != "string")
+                    return res
+                        .status(400)
+                        .send({ status: false, message: "Please provide pincode in string" });
             }
             address.pincode = userData.address.pincode = address.pincode.trim()
 
-            if(!valid.pinReg(address.pincode)){
-                return res
-                    .status(400)
-                    .send({ status: false, message: "Please provide valid pincode in following format, e.g: ** or * *" })
-            }
+            // if(!valid.pinReg(address.pincode)){
+            //     return res
+            //         .status(400)
+            //         .send({ status: false, message: "Please provide valid pincode in following format, e.g: ** or * *" })
+            // }
         }
-        //=================================================
+
         const registeredData = await userModel.create(userData);
-        res
-            .status(201)
-            .send({ status: true, message: "Success", data: registeredData });
+
+        res.status(201).send({ status: true, message: "Success", data: registeredData });
+
     } catch (error) {
         return res.status(500).send({ status: false, message: error.message });
     }
@@ -186,56 +178,47 @@ if ( typeof(email) != "string") {
 
 
 
-const userLogin = async function(req,res){
+const userLogin = async function (req, res) {
     try {
         let data = req.body
-        let {email, password} = data
-        if(Object.keys(data).length==0){
-            return res.status(400).send({status: false, message: "Please provide mandatory details"})
+        let { email, password } = data
+        if (Object.keys(data).length == 0) {
+            return res.status(400).send({ status: false, message: "Please provide mandatory details" })
         }
-//===========================email
+        //===========================email
 
-        if(!email ){
-            return res.status(400).send({status: false, message: "Please provide email-id "})
+        if (!email) {
+            return res.status(400).send({ status: false, message: "Please provide email-id " })
         }
-        if( typeof(email) != "string"){
-            return res.status(400).send({status: false, message: "Please provide email-id in string"})
+        if (typeof (email) != "string") {
+            return res.status(400).send({ status: false, message: "Please provide email-id in string" })
         }
         email = data.email = email.trim()
-        if (!valid.emailValid(email)) {
-            return res
-              .status(400)
-              .send({ status: false, message: "please provide valid email id" });
-          }
-          //=========================password
-        if(!password ){
-            return res.status(400).send({status: false, message: "Please provide password"})
+
+        //=========================password
+        if (!password) {
+            return res.status(400).send({ status: false, message: "Please provide password" })
         }
-        if(typeof(password) != "string"){return res.status(400).send({status: false, message: "Please provide password in string"})}
+        if (typeof (password) != "string") { return res.status(400).send({ status: false, message: "Please provide password in string" }) }
 
         password = data.password = password.trim()
 
-        if (!valid.passwordValid(password)) {
-            return res
-              .status(400)
-              .send({ status: false, message: "Please provide valid password" });
-          }
         //=========================================== finding the user data
-        const userDetail = await userModel.findOne({email:email, password: password})
-        if(!userDetail){
-            return res.status(401).send({status: false, message: " email or password not matched"})
+        const userDetail = await userModel.findOne({ email: email, password: password })
+        if (!userDetail) {
+            return res.status(401).send({ status: false, message: " email or password not matched" })
         }
 
-        let payLoad = {userId : userDetail._id}
+        let payLoad = { userId: userDetail._id }
 
         let token = jwt.sign(
-            payLoad ,
-        "secretKeyProject4", {expiresIn : "1h" })
+            payLoad,
+            "secretKeyProject4", { expiresIn: "1h" })
 
-        res.status(200).send({status: true, message:"successfully login", data: {token}})
-//=========================================================================
+        res.status(200).send({ status: true, message: "successfully login", data:  token  })
+
     } catch (error) {
-        res.status(500).send({status: false, message: error.message})
+        res.status(500).send({ status: false, message: error.message })
     }
 }
 
