@@ -14,7 +14,7 @@ app.use(multer().any())
 
 mongoose.set('strictQuery', true) //to avoid deprication warning
 
-mongoose.connect("mongodb+srv://nehajaiswal:neha123@nehadb.pcorgpc.mongodb.net/group15Database", {
+mongoose.connect("mongodb+srv://gauravpise87:Gaurav2001@gauravdb.crgpvot.mongodb.net/GauravDBProject5", {
     useNewUrlParser: true,
 })
     .then(() => console.log("DB is Connected"))
