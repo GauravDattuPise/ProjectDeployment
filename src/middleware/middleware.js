@@ -7,7 +7,7 @@ const authentication = function (req, res, next) {
     try {
         const token = req.headers["x-api-key"];
         if (!token) {
-            return res.status(400).send({ status: false, message: "Header token is required !" });
+            return res.status(400).send({ status: false, message: "Header token is required" });
         }
         jwt.verify(token, 'secretKeyProject4', function (err, decoded) {
             if (err) {
